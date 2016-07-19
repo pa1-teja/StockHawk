@@ -90,6 +90,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
               @Override public void onItemClick(View v, int position) {
                 //TODO:
                 // do something on item click
+                moveToLineGraphActivity();
               }
             }));
     recyclerView.setAdapter(mCursorAdapter);
@@ -247,6 +248,12 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   @Override
   public void onLoaderReset(Loader<Cursor> loader){
     mCursorAdapter.swapCursor(null);
+  }
+
+
+  public void moveToLineGraphActivity(){
+    Intent intent = new Intent(this,LineGraphActivity.class);
+    startActivity(intent);
   }
 
 }

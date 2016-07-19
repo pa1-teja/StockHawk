@@ -3,12 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-    <com.db.chart.view.LineChartView
-        android:id="@+id/linechart"
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonPanel">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="Set From Date"
+                android:id="@+id/set_from_date"
+                />
+
+
+        <Button
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:text="set To Date"
+        android:id="@+id/set_to_date"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+
+    <!--<com.db.chart.view.LineChartView-->
+        <!--android:id="@+id/linechart"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/buttonPanel"/>-->
 
 </FrameLayout>
 

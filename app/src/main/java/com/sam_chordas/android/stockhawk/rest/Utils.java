@@ -1,11 +1,7 @@
 package com.sam_chordas.android.stockhawk.rest;
 
-import android.app.AlertDialog;
 import android.content.ContentProviderOperation;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
@@ -26,7 +22,7 @@ public class Utils {
 
   public static boolean showPercent = true;
 
-  public static ArrayList quoteJsonToContentVals(String JSON,Context context){
+  public static ArrayList quoteJsonToContentVals(String JSON){
     ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>();
     JSONObject jsonObject = null;
     JSONArray resultsArray = null;
@@ -38,7 +34,7 @@ public class Utils {
         if (count == 1){
           jsonObject = jsonObject.getJSONObject("results")
               .getJSONObject("quote");
-          batchOperations.add(buildBatchOperation(jsonObject,context));
+          batchOperations.add(buildBatchOperation(jsonObject));
         } else{
           resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
 
@@ -46,34 +42,29 @@ public class Utils {
             for (int i = 0; i < resultsArray.length(); i++){
               jsonObject = resultsArray.getJSONObject(i);
 
-              ContentProviderOperation checkPoint2 = buildBatchOperation(jsonObject, context);
+              ContentProviderOperation checkPoint2 = buildBatchOperation(jsonObject);
 
               if (checkPoint2 != null)
               batchOperations.add(checkPoint2);
               else {
-                Log.d(LOG_TAG, "bid is null");
-                Toast.makeText(context,"Please enter a valid stock symbol",Toast.LENGTH_LONG).show();
+                Log.d(LOG_TAG, "bid is null quoteJsonToContentVals()");
               }
-
-
             }
           }
         }
       }
     } catch (JSONException e){
-      Log.e(LOG_TAG, "String to JSON failed: " + e);
-      new AlertDialog.Builder(context).setMessage("Sorry, We couldn't process your request due to some connectivity issues. Please try again later").setPositiveButton("OK", new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-
-        }
-      }).create().show();
+      Log.e(LOG_TAG, "String to JSON failed quoteJsonToContentVals() : " + e);
     }
     return batchOperations;
   }
 
   public static String truncateBidPrice(String bidPrice){
+    if (bidPrice != "null")
     bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
+    else
+    return null;
+
     return bidPrice;
   }
 
@@ -94,20 +85,12 @@ public class Utils {
     return change;
   }
 
-  public static ContentProviderOperation buildBatchOperation(JSONObject jsonObject, Context context){
+  public static ContentProviderOperation buildBatchOperation(JSONObject jsonObject){
     ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
         QuoteProvider.Quotes.CONTENT_URI);
     try {
       String change = jsonObject.getString("Change");
 
-      String bid = jsonObject.getString("Bid");
-
-      if (bid == "null")
-      {
-        Log.d(LOG_TAG, "bid is null");
-        Toast.makeText(context,"Please enter a valid stock symbol",Toast.LENGTH_LONG).show();
-        return null;
-      }
 
       builder.withValue(QuoteColumns.SYMBOL, jsonObject.getString("symbol"));
       builder.withValue(QuoteColumns.BIDPRICE, truncateBidPrice(jsonObject.getString("Bid")));
