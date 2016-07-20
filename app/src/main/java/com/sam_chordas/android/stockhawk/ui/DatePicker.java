@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 
 import java.util.Calendar;
 
@@ -23,15 +22,13 @@ public class DatePicker extends DialogFragment {
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialogSupport datePickerDialogSupport = new DatePickerDialogSupport(getActivity());
+        LineGraphActivity lineGraphActivity = new LineGraphActivity();
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),datePickerDialogSupport,year,month,day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),lineGraphActivity,year,month,day);
 
         // Create a new instance of DatePickerDialog and return it
         return datePickerDialog ;
     }
 
-    public void show(FragmentManager supportFragmentManager, String datePicker) {
 
-    }
 }

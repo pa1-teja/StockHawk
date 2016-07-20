@@ -55,6 +55,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   private Context mContext;
   private Cursor mCursor;
   boolean isConnected;
+  private Intent intent;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         networkToast();
       }
     }
-    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+    final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
@@ -90,6 +91,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
               @Override public void onItemClick(View v, int position) {
                 //TODO:
                 // do something on item click
+
                 moveToLineGraphActivity();
               }
             }));
@@ -252,7 +254,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
 
   public void moveToLineGraphActivity(){
-    Intent intent = new Intent(this,LineGraphActivity.class);
+     intent = new Intent(this,LineGraphActivity.class);
     startActivity(intent);
   }
 

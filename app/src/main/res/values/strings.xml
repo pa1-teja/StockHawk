@@ -13,6 +13,9 @@
 
     <string name="no_network_and_no_date_alert" translatable="true">Uh-oh! This app requires an internet connection. And no available Offline information to display. Press OK to close the app</string>
 
+    <string name="from_date" translatable="true">From Date : </string>
+    <string name="to_date" translatable="true">To Date : </string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
