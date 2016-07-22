@@ -35,6 +35,9 @@ public class Utils {
         if (count == 1){
           jsonObject = jsonObject.getJSONObject("results")
               .getJSONObject("quote");
+          if(jsonObject.getString("Name").equals("null"))
+            return null;
+
           batchOperations.add(buildBatchOperation(jsonObject));
         } else{
           resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
@@ -93,8 +96,6 @@ public class Utils {
         QuoteProvider.Quotes.CONTENT_URI);
     try {
       String change = jsonObject.getString("Change");
-
-
       builder.withValue(QuoteColumns.SYMBOL, jsonObject.getString("symbol"));
       builder.withValue(QuoteColumns.BIDPRICE, truncateBidPrice(jsonObject.getString("Bid")));
       builder.withValue(QuoteColumns.PERCENT_CHANGE, truncateChange(
@@ -110,7 +111,6 @@ public class Utils {
     } catch (JSONException e){
       e.printStackTrace();
     }
-    Log.e(LOG_TAG,"builder.build() : " + builder.build());
     return builder.build();
   }
 }

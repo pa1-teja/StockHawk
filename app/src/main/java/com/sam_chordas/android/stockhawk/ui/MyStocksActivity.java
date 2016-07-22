@@ -198,7 +198,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             }).create().show();
   }
 
-  public void invalidStockSymbolAlert(){
+  public void invalidStockSymbolAlert(Context context){
     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
     builder.setMessage("The Stock Symbol entered is invalid.\n Please enter a valid Stock Symbol.")

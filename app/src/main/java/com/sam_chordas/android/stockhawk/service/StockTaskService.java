@@ -1,5 +1,6 @@
 package com.sam_chordas.android.stockhawk.service;
 
+import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
@@ -14,7 +15,6 @@ import com.google.android.gms.gcm.TaskParams;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.rest.Utils;
-import com.sam_chordas.android.stockhawk.ui.MyStocksActivity;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -44,8 +44,8 @@ public class StockTaskService extends GcmTaskService{
   }
   String fetchData(String url) throws IOException{
     Request request = new Request.Builder()
-        .url(url)
-        .build();
+            .url(url)
+            .build();
 
     Response response = client.newCall(request).execute();
     return response.body().string();
@@ -62,20 +62,20 @@ public class StockTaskService extends GcmTaskService{
       // Base URL for the Yahoo query
       urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=");
       urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.quotes where symbol "
-        + "in (", "UTF-8"));
+              + "in (", "UTF-8"));
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     }
     if (params.getTag().equals("init") || params.getTag().equals("periodic")){
       isUpdate = true;
       initQueryCursor = mContext.getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
-          new String[] { "Distinct " + QuoteColumns.SYMBOL }, null,
-          null, null);
+              new String[] { "Distinct " + QuoteColumns.SYMBOL }, null,
+              null, null);
       if (initQueryCursor.getCount() == 0 || initQueryCursor == null){
         // Init task. Populates DB with quotes for the symbols seen below
         try {
           urlStringBuilder.append(
-              URLEncoder.encode("\"YHOO\",\"AAPL\",\"GOOG\",\"MSFT\")", "UTF-8"));
+                  URLEncoder.encode("\"YHOO\",\"AAPL\",\"GOOG\",\"MSFT\")", "UTF-8"));
         } catch (UnsupportedEncodingException e) {
           e.printStackTrace();
         }
@@ -84,7 +84,7 @@ public class StockTaskService extends GcmTaskService{
         initQueryCursor.moveToFirst();
         for (int i = 0; i < initQueryCursor.getCount(); i++){
           mStoredSymbols.append("\""+
-              initQueryCursor.getString(initQueryCursor.getColumnIndex("symbol"))+"\",");
+                  initQueryCursor.getString(initQueryCursor.getColumnIndex("symbol"))+"\",");
           initQueryCursor.moveToNext();
         }
         mStoredSymbols.replace(mStoredSymbols.length() - 1, mStoredSymbols.length(), ")");
@@ -106,7 +106,7 @@ public class StockTaskService extends GcmTaskService{
     }
     // finalize the URL for the API query.
     urlStringBuilder.append("&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables."
-        + "org%2Falltableswithkeys&callback=");
+            + "org%2Falltableswithkeys&callback=");
 
     String urlString;
     String getResponse;
@@ -114,31 +114,28 @@ public class StockTaskService extends GcmTaskService{
 
     if (urlStringBuilder != null){
       urlString = urlStringBuilder.toString();
-      Log.d(LOG_TAG,"URL : " + urlString);
       try{
         getResponse = fetchData(urlString);
         result = GcmNetworkManager.RESULT_SUCCESS;
-
-
         try {
           ContentValues contentValues = new ContentValues();
           // update ISCURRENT to 0 (false) so new data is current
           if (isUpdate){
             contentValues.put(QuoteColumns.ISCURRENT, 0);
             mContext.getContentResolver().update(QuoteProvider.Quotes.CONTENT_URI, contentValues,
-                null, null);
+                    null, null);
           }
 
-          ArrayList resData = Utils.quoteJsonToContentVals(getResponse);
+          ArrayList<ContentProviderOperation> operations = Utils.quoteJsonToContentVals(getResponse);
 
-          if (resData.isEmpty() || resData == null){
-            Log.d(LOG_TAG,"The Stock Symbol entered is invalid.");
-            MyStocksActivity myStocksActivity = new MyStocksActivity();
-            myStocksActivity.invalidStockSymbolAlert();
+          if (operations == null || operations.isEmpty()) {
+            Log.d(LOG_TAG, "Invalid Stock Symbol");
+
           }
+
           else
           mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
-                  resData);
+                  operations);
         }catch (RemoteException | OperationApplicationException e){
           Log.e(LOG_TAG, "Error applying batch insert", e);
         }
