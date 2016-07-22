@@ -14,6 +14,7 @@ import com.google.android.gms.gcm.TaskParams;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.rest.Utils;
+import com.sam_chordas.android.stockhawk.ui.MyStocksActivity;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -21,6 +22,7 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 /**
  * Created by sam_chordas on 9/30/15.
@@ -127,10 +129,16 @@ public class StockTaskService extends GcmTaskService{
                 null, null);
           }
 
+          ArrayList resData = Utils.quoteJsonToContentVals(getResponse);
+
+          if (resData.isEmpty() || resData == null){
+            Log.d(LOG_TAG,"The Stock Symbol entered is invalid.");
+            MyStocksActivity myStocksActivity = new MyStocksActivity();
+            myStocksActivity.invalidStockSymbolAlert();
+          }
+          else
           mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
-                  Utils.quoteJsonToContentVals(getResponse));
-
-
+                  resData);
         }catch (RemoteException | OperationApplicationException e){
           Log.e(LOG_TAG, "Error applying batch insert", e);
         }

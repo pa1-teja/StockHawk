@@ -198,6 +198,18 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             }).create().show();
   }
 
+  public void invalidStockSymbolAlert(){
+    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+    builder.setMessage("The Stock Symbol entered is invalid.\n Please enter a valid Stock Symbol.")
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+
+              }
+            }).create().show();
+  }
+
   public void noNetworkAndNoOfflineDataAlert(){
     new AlertDialog.Builder(mContext).setMessage(getString(R.string.no_network_and_no_data_alert))
             .setPositiveButton("OK", new DialogInterface.OnClickListener() {

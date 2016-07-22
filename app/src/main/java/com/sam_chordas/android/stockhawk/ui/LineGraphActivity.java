@@ -154,10 +154,6 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
                     +"2010-03-10%22" +
                     "&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";
 
-
-
-
-
             try {
                 URL url = new URL(COMPLETE_URL);
                 Log.d(getClass().getSimpleName(),"async URI : " + url);
