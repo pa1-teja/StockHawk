@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
+import com.sam_chordas.android.stockhawk.ui.MyStocksActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +56,8 @@ public class Utils {
       }
     } catch (JSONException e){
       Log.e(LOG_TAG, "String to JSON failed quoteJsonToContentVals() : " + e);
+      MyStocksActivity myStocksActivity = new MyStocksActivity();
+      myStocksActivity.JSONRetrievalFailed();
     }
     return batchOperations;
   }

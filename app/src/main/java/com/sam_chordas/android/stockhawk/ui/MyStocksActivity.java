@@ -91,8 +91,10 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
               @Override public void onItemClick(View v, int position) {
                 //TODO:
                 // do something on item click
+                mCursor = mCursorAdapter.getCursor();
+                mCursor.moveToPosition(position);
 
-                moveToLineGraphActivity();
+                moveToLineGraphActivity(mCursor.getString(mCursor.getColumnIndex("symbol")));
               }
             }));
     recyclerView.setAdapter(mCursorAdapter);
@@ -184,9 +186,20 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     Toast.makeText(mContext, getString(R.string.network_toast), Toast.LENGTH_SHORT).show();
   }
 
+  public void JSONRetrievalFailed(){
+    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+    builder.setMessage("Failed to fetch data from the internet.\n Please come back later.")
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                finish();
+              }
+            }).create().show();
+  }
 
   public void noNetworkAndNoOfflineDataAlert(){
-    new AlertDialog.Builder(mContext).setMessage(getString(R.string.no_network_and_no_date_alert))
+    new AlertDialog.Builder(mContext).setMessage(getString(R.string.no_network_and_no_data_alert))
             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
               @Override
               public void onClick(DialogInterface dialog, int which) {
@@ -253,8 +266,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   }
 
 
-  public void moveToLineGraphActivity(){
+  public void moveToLineGraphActivity(String symbol){
      intent = new Intent(this,LineGraphActivity.class);
+    intent.putExtra(Intent.EXTRA_TEXT,symbol);
     startActivity(intent);
   }
 
