@@ -104,15 +104,25 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
         // Do something with the date chosen by the user
 
 
+        monthOfYear += 1;
+        String formattedMonth= String.format("%02d", monthOfYear);
+
+        Log.d(getClass().getSimpleName(),"str month : " + formattedMonth);
+
+        String formattedNumber = String.format("%02d", dayOfMonth);
+
+        Log.d(getClass().getSimpleName(),"str day : " + formattedNumber);
 
         if (fD){
-            inputStartDate = year + "-" + monthOfYear + "-" + dayOfMonth;
+
+            inputStartDate = year + "-" + formattedMonth + "-" + formattedNumber;
             Log.d("inputStartDate"
                     ,inputStartDate);
             chosenFromDate.setText(context.getString(R.string.from_date) + " " + inputStartDate);
             fD =false;
         }else if (tD){
-            inputEndDate = year + "-" + monthOfYear + "-" + dayOfMonth;
+
+            inputEndDate = year + "-" + formattedMonth + "-" + formattedNumber;
             Log.d("inputEndDate",inputEndDate);
             chosenToDate.setText(context.getString(R.string.to_date) + " " +inputEndDate);
 
@@ -128,6 +138,8 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
 
 
     public class AsyncHistoricalData extends AsyncTask {
+
+        private String JSON_Str;
 
         @Override
         protected void onPreExecute() {
@@ -178,7 +190,7 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
                     // buffer for debugging.
                     buffer.append(line + "\n");
                 }
-                String JSON_Str = buffer.toString();
+                JSON_Str = buffer.toString();
 
                 Log.i(getClass().getSimpleName(),"json :" + JSON_Str);
 
@@ -192,7 +204,15 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
 
 
 
-            return null;
+            return JSON_Str ;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            progressBar.setVisibility(View.GONE);
+
+            Log.d(getClass().getSimpleName(),"async exec obj : " + o);
         }
     }
 

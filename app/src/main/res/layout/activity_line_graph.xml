@@ -16,7 +16,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="Set From Date"
+                android:text="@string/start_date_button"
                 android:id="@+id/set_from_date"
                 />
 
@@ -25,7 +25,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="match_parent"
-        android:text="set To Date"
+        android:text="@string/end_date_button"
         android:id="@+id/set_to_date"/>
 
         </TableRow>
@@ -81,11 +81,12 @@
         android:textSize="20sp"/>
 
 
-    <!--<com.db.chart.view.LineChartView-->
-        <!--android:id="@+id/linechart"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_below="@+id/buttonPanel"/>-->
+    <com.db.chart.view.LineChartView
+        android:id="@+id/linechart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@+id/buttonPanel"/>
 
 </FrameLayout>
 
