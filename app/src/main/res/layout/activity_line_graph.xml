@@ -72,7 +72,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:paddingTop="124dp"
         android:id="@+id/dates_check"
         android:gravity="center"
         android:text="@string/date_check"
@@ -81,12 +81,12 @@
         android:textSize="20sp"/>
 
 
-    <com.db.chart.view.LineChartView
-        android:id="@+id/linechart"
+    <com.github.mikephil.charting.charts.LineChart
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_below="@+id/buttonPanel"/>
+        android:layout_height="match_parent"
+        android:id="@+id/lineChart"
+        android:layout_below="@+id/stock_symbol"/>
+
 
 </FrameLayout>
 

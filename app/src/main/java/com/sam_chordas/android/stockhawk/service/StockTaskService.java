@@ -31,6 +31,8 @@ import java.util.ArrayList;
  */
 public class StockTaskService extends GcmTaskService{
   private String LOG_TAG = StockTaskService.class.getSimpleName();
+  public static final String ACTION_DATA_UPDATED = "com.pavan.android.stockhawk.ACTION_DATA_UPDATED";
+
 
   private OkHttpClient client = new OkHttpClient();
   private Context mContext;

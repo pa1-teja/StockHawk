@@ -21,7 +21,10 @@
   <string name="start_date_button" translatable="true">Set Start Date</string>
   <string name="end_date_button" translatable="true">Set End Date</string>
 
+  <string name="empty_stock_list" translatable="true">Empty Stock List</string>
 
-  <string name="date_check" translatable="true">Please set From and To Dates</string>
+
+  <string name="date_check" translatable="true">Please set Start and End Dates</string>
+  <string name="graph_activity_label" translatable="true">Graph</string>
 
 </resources>
