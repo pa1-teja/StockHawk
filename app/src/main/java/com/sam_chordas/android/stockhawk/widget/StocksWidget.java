@@ -30,7 +30,7 @@ public class StocksWidget extends AppWidgetProvider {
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.list_item_quote);
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_list_view);
             // Set up the RemoteViews object to use a RemoteViews adapter.
             // This adapter connects
             // to a RemoteViewsService  through the specified intent.

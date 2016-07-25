@@ -89,9 +89,9 @@ public class WidgetService extends RemoteViewsService {
            }
 
            if (mCursor.getInt(COL_QUOTE_ISUP) == 1)
-               views.setInt(R.id.change, "setBGRes", R.drawable.percent_change_pill_green);
+               views.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_green);
            else
-               views.setInt(R.id.change, "setBGRes", R.drawable.percent_change_pill_red);
+               views.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_red);
 
            Intent intent = new Intent();
            mCursor.moveToPosition(position);
