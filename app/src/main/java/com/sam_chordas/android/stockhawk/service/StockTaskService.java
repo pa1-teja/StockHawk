@@ -3,10 +3,13 @@ package com.sam_chordas.android.stockhawk.service;
 import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.os.Handler;
 import android.os.RemoteException;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmNetworkManager;
@@ -39,7 +42,10 @@ public class StockTaskService extends GcmTaskService{
   private StringBuilder mStoredSymbols = new StringBuilder();
   private boolean isUpdate;
 
+  private Handler handler;
+
   public StockTaskService(){}
+
 
   public StockTaskService(Context context){
     mContext = context;
@@ -133,7 +139,10 @@ public class StockTaskService extends GcmTaskService{
           if (operations == null || operations.isEmpty()) {
             Log.d(LOG_TAG, "Invalid Stock Symbol");
 
-          }
+            Intent invalidStockSymbolAlert = new Intent("Invalid-Stock-Symbol");
+            invalidStockSymbolAlert.putExtra("Invalid-Stock-Symbol-Alert","Invalid-Stock-Symbol");
+            LocalBroadcastManager.getInstance(mContext).sendBroadcast(invalidStockSymbolAlert);
+           }
 
           else
           mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
@@ -143,6 +152,9 @@ public class StockTaskService extends GcmTaskService{
         }
       } catch (IOException e){
         e.printStackTrace();
+        Intent timeOut = new Intent("connection-timeout");
+        timeOut.putExtra("connection-timeout","failed-to-fetch-data");
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(timeOut);
       }
     }
 

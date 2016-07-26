@@ -25,8 +25,13 @@
 
     <string name="empty_stock_list" translatable="true">Empty Stock List</string>
 
+
+    <string name="invalid_stock_symbol_alert" translatable="true">The entered Stock Symbol is invalid. Please enter a valid Stock Symbol</string>
+
+    <string name="connectivity_time_out" translatable="true">Failed to fetch data due to some connectivity issues. Please come back later.</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="appwidget_text">Stocks Widget </string>
-    <string name="add_widget">Add widget</string>
+    <string name="appwidget_text" translatable="true">Stocks Widget </string>
+    <string name="add_widget" translatable="true">Add widget</string>
 </resources>

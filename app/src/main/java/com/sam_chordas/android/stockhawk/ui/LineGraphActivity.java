@@ -47,7 +47,7 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
 
     static TextView chosenFromDate, chosenToDate;
 
-    static TextView dates_check, stock_symbol;
+    static TextView dates_check;
 
     static TableLayout buttonPanel;
 
@@ -76,7 +76,7 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
         fromDate = (Button) findViewById(R.id.set_from_date);
         toDate = (Button) findViewById(R.id.set_to_date);
 
-        stock_symbol = (TextView) findViewById(R.id.stock_symbol);
+
         buttonPanel = (TableLayout) findViewById(R.id.buttonPanel);
 
         progressBar = (ProgressBar) findViewById(R.id.history_progress);
@@ -91,7 +91,6 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
 
         dates_check.setVisibility(View.GONE);
 
-        stock_symbol.setVisibility(View.GONE);
 
         fromDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,7 +231,6 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
             buttonPanel.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
 
-            stock_symbol.setVisibility(View.VISIBLE);
 
             Log.d(getClass().getSimpleName(), "async exec obj : " + o);
 
@@ -277,11 +275,7 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
             }
         }
 
-        try {
-            stock_symbol.setText(jsonObject.getString("Symbol"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
 
         Log.d(getClass().getSimpleName(), "entries : " + entries + "\n"
                 + "labels: " + labels);

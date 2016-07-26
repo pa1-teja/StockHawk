@@ -23,6 +23,10 @@
 
   <string name="empty_stock_list" translatable="true">Empty Stock List</string>
 
+  <string name="invalid_stock_symbol_alert" translatable="true">The entered Stock Symbol is invalid. Please enter a valid Stock Symbol</string>
+
+  <string name="connectivity_time_out" translatable="true">Failed to fetch data due to some connectivity issues. Please come back later.</string>
+
 
   <string name="date_check" translatable="true">Please set Start and End Dates</string>
   <string name="graph_activity_label" translatable="true">Graph</string>

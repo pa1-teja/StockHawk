@@ -2,21 +2,25 @@ package com.sam_chordas.android.stockhawk.ui;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,7 +56,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   private ItemTouchHelper mItemTouchHelper;
   private static final int CURSOR_LOADER_ID = 0;
   private QuoteCursorAdapter mCursorAdapter;
-  private Context mContext;
+  private static Context mContext;
   private Cursor mCursor;
   boolean isConnected;
   private Intent intent;
@@ -98,6 +102,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
               }
             }));
     recyclerView.setAdapter(mCursorAdapter);
+
 
 
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -173,6 +178,10 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         noNetworkAndNoOfflineDataAlert();
 
     }
+    LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,
+            new IntentFilter("Invalid-Stock-Symbol"));
+    LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,
+            new IntentFilter("connection-timeout"));
   }
 
 
@@ -181,6 +190,38 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     super.onResume();
     getLoaderManager().restartLoader(CURSOR_LOADER_ID, null, this);
   }
+
+  private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      String alertResponse = intent.getStringExtra("Invalid-Stock-Symbol-Alert");
+      String timeOutResponse = intent.getStringExtra("connection-timeout");
+
+      if (alertResponse != null && alertResponse == "Invalid-Stock-Symbol") {
+        Log.d(getClass().getSimpleName(), "broadcast received : " + alertResponse);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage(mContext.getString(R.string.invalid_stock_symbol_alert))
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int which) {
+
+                  }
+                }).create().show();
+      }
+      else if (timeOutResponse != null && timeOutResponse == "failed-to-fetch-data"){
+        Log.d(getClass().getSimpleName(), "time out broadcast received : " + timeOutResponse);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage("Failed to fetch data due to some connectivity issues.\n Please come back later.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                  }
+                }).create().show();
+      }
+    }
+  };
+
 
   public void networkToast(){
     Toast.makeText(mContext, getString(R.string.network_toast), Toast.LENGTH_SHORT).show();
@@ -198,17 +239,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             }).create().show();
   }
 
-  public void invalidStockSymbolAlert(Context context){
-    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-    builder.setMessage("The Stock Symbol entered is invalid.\n Please enter a valid Stock Symbol.")
-            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-
-              }
-            }).create().show();
-  }
 
   public void noNetworkAndNoOfflineDataAlert(){
     new AlertDialog.Builder(mContext).setMessage(getString(R.string.no_network_and_no_data_alert))
