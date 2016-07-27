@@ -17,6 +17,7 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:text="@string/start_date_button"
+                android:contentDescription="@string/start_date_button"
                 android:id="@+id/set_from_date"
                 />
 
@@ -26,6 +27,7 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:text="@string/end_date_button"
+        android:contentDescription="@string/end_date_button"
         android:id="@+id/set_to_date"/>
 
         </TableRow>
@@ -76,6 +78,7 @@
         android:id="@+id/dates_check"
         android:gravity="center"
         android:text="@string/date_check"
+        android:contentDescription="@string/date_check"
         android:textColor="@android:color/darker_gray"
         android:fontFamily="sans-serif-light"
         android:textSize="20sp"/>

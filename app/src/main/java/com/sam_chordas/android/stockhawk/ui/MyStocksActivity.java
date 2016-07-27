@@ -112,6 +112,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         if (isConnected){
           new MaterialDialog.Builder(mContext).title(R.string.symbol_search)
               .content(R.string.content_test)
+                  .positiveText(getString(R.string.fab_add_symbol))
+                  .positiveText(getString(R.string.fab_cancel_symbol))
               .inputType(InputType.TYPE_CLASS_TEXT)
               .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
                 @Override public void onInput(MaterialDialog dialog, CharSequence input) {
@@ -122,7 +124,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                       new String[] { input.toString() }, null);
                   if (c.getCount() != 0) {
                     Toast toast =
-                        Toast.makeText(MyStocksActivity.this, "This stock is already saved!",
+                        Toast.makeText(MyStocksActivity.this, getString(R.string.saved_stock_alert),
                             Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                     toast.show();

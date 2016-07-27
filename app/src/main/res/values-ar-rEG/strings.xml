@@ -9,9 +9,12 @@
   <string name="content_test" translatable="true">Search for a Stock Symbol</string>
   <string name="network_toast" translatable="true">Uh-oh! This app requires an internet connection</string>
 
+  <string name="fab_add_symbol" translatable="true">Add New Stock Symbol</string>
+  <string name="fab_cancel_symbol" translatable="true">Cancel</string>
 
-  <string name="input_hint" translatable="false">FB</string>
-  <string name="input_prefill" translatable="false"></string>
+  <string name="saved_stock_alert" translatable="true">This stock is already saved!</string>
+
+
 
   <string name="no_network_and_no_data_alert" translatable="true">Uh-oh! This app requires an internet connection. And no available Offline information to display. Press OK to close the app</string>
 

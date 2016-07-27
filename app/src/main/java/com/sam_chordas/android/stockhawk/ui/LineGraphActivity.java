@@ -139,12 +139,14 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
             Log.d("inputStartDate"
                     , inputStartDate);
             chosenFromDate.setText(context.getString(R.string.from_date) + " " + inputStartDate);
+            chosenFromDate.setContentDescription(context.getString(R.string.from_date) + " " + inputStartDate);
             fD = false;
         } else if (tD) {
 
             inputEndDate = year + "-" + formattedMonth + "-" + formattedNumber;
             Log.d("inputEndDate", inputEndDate);
             chosenToDate.setText(context.getString(R.string.to_date) + " " + inputEndDate);
+            chosenToDate.setContentDescription(context.getString(R.string.to_date) + " " + inputEndDate);
 
             if (inputStartDate != null && inputEndDate != null) {
                 dates_check.setVisibility(View.GONE);
@@ -242,8 +244,6 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
 
                 JSONArray jsonArray = jsonObject.getJSONArray("quote");
 
-                ;
-
                 plotGraph(jsonArray);
 
 
@@ -300,9 +300,7 @@ public class LineGraphActivity extends AppCompatActivity implements DatePickerDi
 
         LineData data = new LineData(labels, lineDataSet);
 
-
         mPlotGraph.fitScreen();
-
 
         mPlotGraph.setData(data);
         mPlotGraph.invalidate();
