@@ -199,7 +199,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
       String alertResponse = intent.getStringExtra("Invalid-Stock-Symbol-Alert");
       String timeOutResponse = intent.getStringExtra("connection-timeout");
 
-      if (alertResponse != null && alertResponse == "Invalid-Stock-Symbol") {
+      if (alertResponse.equals(null) && alertResponse.contains("Invalid-Stock-Symbol")) {
         Log.d(getClass().getSimpleName(), "broadcast received : " + alertResponse);
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setMessage(mContext.getString(R.string.invalid_stock_symbol_alert))
@@ -210,10 +210,10 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                   }
                 }).create().show();
       }
-      else if (timeOutResponse != null && timeOutResponse == "failed-to-fetch-data"){
+      else if (timeOutResponse.equals(null) && timeOutResponse.contains("failed-to-fetch-data") ){
         Log.d(getClass().getSimpleName(), "time out broadcast received : " + timeOutResponse);
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setMessage("Failed to fetch data due to some connectivity issues.\n Please come back later.")
+        builder.setMessage(getString(R.string.connectivity_time_out))
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                   @Override
                   public void onClick(DialogInterface dialog, int which) {
@@ -232,7 +232,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   public void JSONRetrievalFailed(){
     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
-    builder.setMessage("Failed to fetch data from the internet.\n Please come back later.")
+    builder.setMessage(getString(R.string.json_retrieval_failed))
             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
               @Override
               public void onClick(DialogInterface dialog, int which) {
